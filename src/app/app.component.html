@@ -1,8 +1,53 @@
 <div>
-  <h1>
-    Breweries
-  </h1>
-  <button (click)="showList()">
-    SHOW LIST
-  </button>
+  <h1>Breweries</h1>
+  <div>
+    <button (click)="showList()">SHOW LIST</button>
+    <input type="number" placeholder="Searching by ID" #searchID />
+    <button (click)="searchItem(searchID.valueAsNumber)">SUBMIT</button>
+  </div>
+
+  <div *ngIf="data.length != 0 || showTable == false; else no_found">
+    <table
+      [style.display]="showTable == true && data.length != 0 ? 'block' : 'none'"
+    >
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Street</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Country</th>
+        <th>Phone</th>
+      </tr>
+      <div *ngIf="data.length > 1; else single_res">
+        <tr *ngFor="let brewery of data">
+          <td>{{ brewery.id }}</td>
+          <td>{{ brewery.name }}</td>
+          <td>{{ brewery.brewery_type }}</td>
+          <td>{{ brewery.street }}</td>
+          <td>{{ brewery.city }}</td>
+          <td>{{ brewery.state }}</td>
+          <td>{{ brewery.country }}</td>
+          <td>{{ brewery.phone }}</td>
+        </tr>
+      </div>
+      <ng-template #single_res>
+        <tr>
+          <td>{{ data.id }}</td>
+          <td>{{ data.name }}</td>
+          <td>{{ data.brewery_type }}</td>
+          <td>{{ data.street }}</td>
+          <td>{{ data.city }}</td>
+          <td>{{ data.state }}</td>
+          <td>{{ data.country }}</td>
+          <td>{{ data.phone }}</td>
+        </tr>
+      </ng-template>
+    </table>
+  </div>
+
+  <ng-template #no_found>
+    <h3>Not Found</h3>
+  </ng-template>
 </div>
